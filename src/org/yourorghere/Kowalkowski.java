@@ -91,35 +91,16 @@ GL gl = drawable.getGL();
  gl.glLoadIdentity();
 
 // Tu piszemy kod rysuj¹cy grafikê 3D
- gl.glColor3f(1.0f,0.0f,0.0f);
- gl.glBegin(GL.GL_TRIANGLES);
-gl.glVertex3f(0.5f, 2.0f, -6.0f);
-gl.glVertex3f(0.0f,1.0f, -6.0f);
-gl.glVertex3f( 1.0f,1.0f, -6.0f);
-gl.glEnd();
-
-gl.glColor3f(0.0f,1.0f,0.0f);
-gl.glBegin(GL.GL_QUADS);
-gl.glVertex3f(0.0f, 1.0f, -6.0f);
-gl.glVertex3f(0.0f,0.0f, -6.0f);
-gl.glVertex3f( 1.0f,0.0f, -6.0f);
-gl.glVertex3f( 1.0f,1.0f, -6.0f);
-gl.glEnd();
-
-gl.glColor3f(255.0f,255.0f,0.0f);
-gl.glBegin(GL.GL_QUADS);
-gl.glVertex3f(0.4f, 0.4f, -5.99f);
-gl.glVertex3f(0.4f,0.0f, -5.99f);
-gl.glVertex3f(0.6f,0.0f, -5.99f);
-gl.glVertex3f( 0.6f,0.4f, -5.99f);
-gl.glEnd();
-
-gl.glColor3f(34.0f,113.0f,179.0f);
-gl.glBegin(GL.GL_QUADS);
-gl.glVertex3f(0.7f, 0.9f, -5.99f);
-gl.glVertex3f(0.7f,0.7f, -5.99f);
-gl.glVertex3f(0.9f,0.7f, -5.99f);
-gl.glVertex3f( 0.9f,0.9f, -5.99f);
+ float x,y,kat;
+gl.glBegin(GL.GL_TRIANGLE_FAN);
+gl.glVertex3f(0.0f,0.0f,-6.0f); //œrodek
+for(kat = 0.0f; kat < (2.0f*Math.PI);
+kat+=(Math.PI/32.0f))
+{
+x = 1.5f*(float)Math.sin(kat);
+y = 1.5f*(float)Math.cos(kat);
+gl.glVertex3f(x, y, -6.0f); //kolejne punkty
+}
 gl.glEnd();
 
 
