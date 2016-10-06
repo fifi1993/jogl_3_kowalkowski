@@ -83,30 +83,31 @@ public class Kowalkowski implements GLEventListener {
     }
 
     public void display(GLAutoDrawable drawable) {
-//Tworzenie obiektu
-GL gl = drawable.getGL();
-//Czyszczenie przestrzeni 3D przed utworzeniem kolejnej klatki
- gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
- //Resetowanie macierzy transformacji
- gl.glLoadIdentity();
-
-// Tu piszemy kod rysuj¹cy grafikê 3D
- float x,y,kat;
-gl.glBegin(GL.GL_TRIANGLE_FAN);
-gl.glVertex3f(0.0f,0.0f,-6.0f); //œrodek
-for(kat = 0.0f; kat < (2.0f*Math.PI);
-kat+=(Math.PI/32.0f))
-{
-x = 0.5f*(float)Math.sin(kat);
-y = 0.5f*(float)Math.cos(kat);
-gl.glVertex3f(x, y, -6.0f); //kolejne punkty
+        GL gl = drawable.getGL();
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+          gl.glLoadIdentity();
+          trojkat(0.0f, 0.0f, 0.5f, gl);
+          gl.glEnd();
+          gl.glFlush();
+       
 }
-gl.glEnd();
-
-
- //Wykonanie wszystkich operacji znajduj¹cych siê w buforze
- gl.glFlush();
-}
+    
+    
+    public void trojkat(float xsrodek, float ysrodek, float rozmiar, GL gl) {
+         float kat;
+         gl.glBegin(GL.GL_TRIANGLE_FAN);
+         gl.glVertex3f(xsrodek, ysrodek, -6.0f);
+         for (kat = 0.0f; kat < (2.0f * Math.PI);
+                 kat += (Math.PI / 32.0f)) {
+             float x = rozmiar * (float) Math.sin(kat) + xsrodek;
+             float y = rozmiar * (float) Math.cos(kat) + ysrodek;
+ 
+             gl.glVertex3f(x, y, -6.0f);
+         }
+     }
+    
+    
+   
 
 
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
