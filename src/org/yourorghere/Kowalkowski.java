@@ -113,11 +113,14 @@ public class Kowalkowski implements GLEventListener {
         GL gl = drawable.getGL();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
           gl.glLoadIdentity();
-          //kolo(0.0f, 0.0f, 0.5f, gl);
+          
           gl.glTranslatef(0.0f, 0.0f, -6.0f); //przesuniêcie o 6 jednostek
             gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f); //rotacja wokó³ osi X
             gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó³ osi Y
-            
+            kolo(0.0f, 0.0f, 1.0f, gl);
+            kolo2(0.0f, 0.0f, 1.0f, gl);
+            tuba(1.0f, gl);
+            /*
             gl.glBegin(GL.GL_QUADS);
             //podstawa
 gl.glColor3f(1.0f,0.0f,1.0f);
@@ -154,11 +157,8 @@ gl.glVertex3f(1.0f,-1.0f,1.0f);
 gl.glVertex3f(0.0f,1.0f,0.0f);
 
 
-
-
-
-
           gl.glEnd();
+                    */
           gl.glFlush();
        
 }
@@ -166,15 +166,51 @@ gl.glVertex3f(0.0f,1.0f,0.0f);
     
     public void kolo(float xsrodek, float ysrodek, float rozmiar, GL gl) {
          float kat;
+         
          gl.glBegin(GL.GL_TRIANGLE_FAN);
-         gl.glVertex3f(xsrodek, ysrodek, -6.0f);
-         for (kat = 0.0f; kat < (2.0f * Math.PI);
+         gl.glColor3f(1.0f,0.0f,0.0f);
+         gl.glVertex3f(xsrodek, ysrodek, 2.0f);
+         for (kat = (float) (2.0f * Math.PI); kat > 0;
+                 kat -= (Math.PI / 32.0f)) {
+             float x = rozmiar * (float) Math.sin(kat) + xsrodek;
+             float y = rozmiar * (float) Math.cos(kat) + ysrodek;
+
+             gl.glVertex3f(x, y, 2.0f);
+         }
+         gl.glEnd();
+     }
+    
+    public void kolo2(float xsrodek, float ysrodek, float rozmiar, GL gl) {
+         float kat;
+         
+         gl.glBegin(GL.GL_TRIANGLE_FAN);
+         gl.glColor3f(0.0f,0.0f,1.0f);
+         gl.glVertex3f(xsrodek, ysrodek, 0.0f);
+         for (kat = 0.0f  ; kat < (2.0f * Math.PI);
                  kat += (Math.PI / 32.0f)) {
              float x = rozmiar * (float) Math.sin(kat) + xsrodek;
              float y = rozmiar * (float) Math.cos(kat) + ysrodek;
- 
-             gl.glVertex3f(x, y, -6.0f);
+
+             gl.glVertex3f(x, y, 0.0f);
          }
+         gl.glEnd();
+     }
+    
+     public void tuba(float rozmiar, GL gl) {
+         float kat;
+         
+         gl.glBegin(GL.GL_QUAD_STRIP);
+         gl.glColor3f(0.0f,1.0f,0.0f);
+         
+         for (kat = 0.0f  ; kat < (2.0f * Math.PI);
+                 kat += (Math.PI / 32.0f)) {
+             float x = rozmiar * (float) Math.sin(kat);
+             float y = rozmiar * (float) Math.cos(kat);
+
+             gl.glVertex3f(x, y, 0.0f);
+             gl.glVertex3f(x, y, 2.0f);
+         }
+         gl.glEnd();
      }
     
     
