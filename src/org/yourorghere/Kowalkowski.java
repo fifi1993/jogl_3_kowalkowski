@@ -2,6 +2,8 @@ package org.yourorghere;
 
 import com.sun.opengl.util.Animator;
 import java.awt.Frame;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.media.opengl.GL;
@@ -19,6 +21,8 @@ import javax.media.opengl.glu.GLU;
  * This version is equal to Brian Paul's version 1.2 1999/10/21
  */
 public class Kowalkowski implements GLEventListener {
+//statyczne pola okreœlaj¹ce rotacjê wokó³ osi X i Y
+ private static float xrot = 0.0f, yrot = 0.0f;
 
     public static void main(String[] args) {
         Frame frame = new Frame("Simple JOGL Application");
@@ -44,6 +48,25 @@ public class Kowalkowski implements GLEventListener {
                 }).start();
             }
         });
+        
+        //Obs³uga klawiszy strza³ek
+ frame.addKeyListener(new KeyListener()
+ {
+ public void keyPressed(KeyEvent e)
+ {
+ if(e.getKeyCode() == KeyEvent.VK_UP)
+ xrot -= 1.0f;
+ if(e.getKeyCode() == KeyEvent.VK_DOWN)
+ xrot +=1.0f;
+ if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+ yrot += 1.0f;
+ if(e.getKeyCode() == KeyEvent.VK_LEFT)
+ yrot -=1.0f;
+ }
+ public void keyReleased(KeyEvent e){}
+ public void keyTyped(KeyEvent e){}
+ });
+        
         // Center frame
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -63,6 +86,10 @@ public class Kowalkowski implements GLEventListener {
         // Setup the drawing area and shading mode
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
+        
+        //wy³¹czenie wewnêtrzych stron prymitywów
+        gl.glEnable(GL.GL_CULL_FACE);
+
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -86,14 +113,59 @@ public class Kowalkowski implements GLEventListener {
         GL gl = drawable.getGL();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
           gl.glLoadIdentity();
-          trojkat(0.0f, 0.0f, 0.5f, gl);
+          //kolo(0.0f, 0.0f, 0.5f, gl);
+          gl.glTranslatef(0.0f, 0.0f, -6.0f); //przesuniêcie o 6 jednostek
+            gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f); //rotacja wokó³ osi X
+            gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó³ osi Y
+            
+            gl.glBegin(GL.GL_QUADS);
+//œciana przednia
+gl.glColor3f(1.0f,0.0f,0.0f);
+gl.glVertex3f(-1.0f,-1.0f,1.0f);
+gl.glVertex3f(1.0f,-1.0f,1.0f);
+gl.glVertex3f(1.0f,1.0f,1.0f);
+gl.glVertex3f(-1.0f,1.0f,1.0f);
+//sciana tylnia
+gl.glColor3f(0.0f,1.0f,0.0f);
+gl.glVertex3f(-1.0f,1.0f,-1.0f);
+gl.glVertex3f(1.0f,1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+//œciana lewa
+gl.glColor3f(0.0f,0.0f,1.0f);
+gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+gl.glVertex3f(-1.0f,-1.0f,1.0f);
+gl.glVertex3f(-1.0f,1.0f,1.0f);
+gl.glVertex3f(-1.0f,1.0f,-1.0f);
+//œciana prawa
+gl.glColor3f(1.0f,1.0f,0.0f);
+gl.glVertex3f(1.0f,1.0f,-1.0f);
+gl.glVertex3f(1.0f,1.0f,1.0f);
+gl.glVertex3f(1.0f,-1.0f,1.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+//œciana dolna
+gl.glColor3f(1.0f,0.0f,1.0f);
+gl.glVertex3f(-1.0f,-1.0f,1.0f);
+gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,1.0f);
+//œciana górna
+gl.glColor3f(1.0f,0.0f,1.0f);
+gl.glVertex3f(-1.0f,1.0f,1.0f);
+gl.glVertex3f(1.0f,1.0f,1.0f);
+gl.glVertex3f(1.0f,1.0f,-1.0f);
+gl.glVertex3f(-1.0f,1.0f,-1.0f);
+
+
+
+
           gl.glEnd();
           gl.glFlush();
        
 }
     
     
-    public void trojkat(float xsrodek, float ysrodek, float rozmiar, GL gl) {
+    public void kolo(float xsrodek, float ysrodek, float rozmiar, GL gl) {
          float kat;
          gl.glBegin(GL.GL_TRIANGLE_FAN);
          gl.glVertex3f(xsrodek, ysrodek, -6.0f);
