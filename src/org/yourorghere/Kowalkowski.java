@@ -117,7 +117,7 @@ public class Kowalkowski implements GLEventListener {
           gl.glTranslatef(0.0f, 0.0f, -6.0f); //przesuniêcie o 6 jednostek
             gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f); //rotacja wokó³ osi X
             gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó³ osi Y
-            kolo(0.0f, 0.0f, 1.0f, gl);
+            //kolo(0.0f, 0.0f, 1.0f, gl);
             kolo2(0.0f, 0.0f, 1.0f, gl);
             tuba(1.0f, gl);
             /*
@@ -208,7 +208,7 @@ gl.glVertex3f(0.0f,1.0f,0.0f);
              float y = rozmiar * (float) Math.cos(kat);
 
              gl.glVertex3f(x, y, 0.0f);
-             gl.glVertex3f(x, y, 2.0f);
+             gl.glVertex3f(0.0f, 0.0f, 2.0f);
          }
          gl.glEnd();
      }
