@@ -119,42 +119,41 @@ public class Kowalkowski implements GLEventListener {
             gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó³ osi Y
             
             gl.glBegin(GL.GL_QUADS);
-//œciana przednia
-gl.glColor3f(1.0f,0.0f,0.0f);
+            //podstawa
+gl.glColor3f(1.0f,0.0f,1.0f);
 gl.glVertex3f(-1.0f,-1.0f,1.0f);
-gl.glVertex3f(1.0f,-1.0f,1.0f);
-gl.glVertex3f(1.0f,1.0f,1.0f);
-gl.glVertex3f(-1.0f,1.0f,1.0f);
-//sciana tylnia
-gl.glColor3f(0.0f,1.0f,0.0f);
-gl.glVertex3f(-1.0f,1.0f,-1.0f);
-gl.glVertex3f(1.0f,1.0f,-1.0f);
-gl.glVertex3f(1.0f,-1.0f,-1.0f);
 gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,1.0f);
+
+gl.glEnd();
+//sciana tylna
+gl.glBegin(GL.GL_TRIANGLES);
+gl.glColor3f(0.0f,1.0f,0.0f);
+gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+gl.glVertex3f(0.0f,1.0f,0.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+
 //œciana lewa
 gl.glColor3f(0.0f,0.0f,1.0f);
 gl.glVertex3f(-1.0f,-1.0f,-1.0f);
 gl.glVertex3f(-1.0f,-1.0f,1.0f);
-gl.glVertex3f(-1.0f,1.0f,1.0f);
-gl.glVertex3f(-1.0f,1.0f,-1.0f);
+gl.glVertex3f(0.0f,1.0f,0.0f);
+
 //œciana prawa
 gl.glColor3f(1.0f,1.0f,0.0f);
-gl.glVertex3f(1.0f,1.0f,-1.0f);
-gl.glVertex3f(1.0f,1.0f,1.0f);
 gl.glVertex3f(1.0f,-1.0f,1.0f);
 gl.glVertex3f(1.0f,-1.0f,-1.0f);
-//œciana dolna
-gl.glColor3f(1.0f,0.0f,1.0f);
+gl.glVertex3f(0.0f,1.0f,0.0f);
+
+
+//œciana przednia
+gl.glColor3f(1.0f,0.0f,0.0f);
 gl.glVertex3f(-1.0f,-1.0f,1.0f);
-gl.glVertex3f(-1.0f,-1.0f,-1.0f);
-gl.glVertex3f(1.0f,-1.0f,-1.0f);
 gl.glVertex3f(1.0f,-1.0f,1.0f);
-//œciana górna
-gl.glColor3f(1.0f,0.0f,1.0f);
-gl.glVertex3f(-1.0f,1.0f,1.0f);
-gl.glVertex3f(1.0f,1.0f,1.0f);
-gl.glVertex3f(1.0f,1.0f,-1.0f);
-gl.glVertex3f(-1.0f,1.0f,-1.0f);
+gl.glVertex3f(0.0f,1.0f,0.0f);
+
+
 
 
 
