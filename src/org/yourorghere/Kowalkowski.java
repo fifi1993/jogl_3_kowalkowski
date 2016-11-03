@@ -21,7 +21,7 @@ import javax.media.opengl.glu.GLU;
  * This version is equal to Brian Paul's version 1.2 1999/10/21
  */
 public class Kowalkowski implements GLEventListener {
-//statyczne pola okreœlaj¹ce rotacjê wokó³ osi X i Y
+//statyczne pola okre?laj?ce rotacj? wokó? osi X i Y
  private static float xrot = 0.0f, yrot = 0.0f;
 
     public static void main(String[] args) {
@@ -49,7 +49,7 @@ public class Kowalkowski implements GLEventListener {
             }
         });
         
-        //Obs³uga klawiszy strza³ek
+        //Obs?uga klawiszy strza?ek
  frame.addKeyListener(new KeyListener()
  {
  public void keyPressed(KeyEvent e)
@@ -87,8 +87,36 @@ public class Kowalkowski implements GLEventListener {
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
         
-        //wy³¹czenie wewnêtrzych stron prymitywów
+        //wy??czenie wewn?trzych stron prymitywów
         gl.glEnable(GL.GL_CULL_FACE);
+        
+        //wartoœci sk³adowe oœwietlenia i koordynaty Ÿród³a œwiat³a
+        float ambientLight[] = { 0.3f, 0.3f, 0.3f, 1.0f };//swiat³o otaczaj¹ce
+        float diffuseLight[] = { 0.7f, 0.7f, 0.7f, 1.0f };//œwiat³o rozproszone
+        float specular[] = { 1.0f, 1.0f, 1.0f, 1.0f}; //œwiat³o odbite
+        float lightPos[] = { 0.0f, 150.0f, 150.0f, 1.0f };//pozycja œwiat³a
+        //(czwarty parametr okreœla odleg³oœæ Ÿród³a:
+        //0.0f-nieskoñczona; 1.0f-okreœlona przez pozosta³e parametry)
+        gl.glEnable(GL.GL_LIGHTING); //uaktywnienie oœwietlenia
+        //ustawienie parametrów Ÿród³a œwiat³a nr. 0
+        gl.glLightfv(GL.GL_LIGHT0,GL.GL_AMBIENT,ambientLight,0); //swiat³o otaczaj¹ce
+        gl.glLightfv(GL.GL_LIGHT0,GL.GL_DIFFUSE,diffuseLight,0); //œwiat³o rozproszone
+        gl.glLightfv(GL.GL_LIGHT0,GL.GL_SPECULAR,specular,0); //œwiat³o odbite
+        gl.glLightfv(GL.GL_LIGHT0,GL.GL_POSITION,lightPos,0); //pozycja œwiat³a
+        gl.glEnable(GL.GL_LIGHT0); //uaktywnienie Ÿród³a œwiat³a nr. 0
+        gl.glEnable(GL.GL_COLOR_MATERIAL); //uaktywnienie œledzenia kolorów
+        //kolory bêd¹ ustalane za pomoc¹ glColor
+        gl.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);
+        //Ustawienie jasnoœci i odblaskowoœci obiektów
+        float specref[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //parametry odblaskowoœci
+        gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR,specref,0);
+        
+        gl.glMateriali(GL.GL_FRONT,GL.GL_SHININESS,128);
+
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        // Setup the drawing area and shading mode
+        gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
 
     }
 
@@ -113,52 +141,59 @@ public class Kowalkowski implements GLEventListener {
         GL gl = drawable.getGL();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
           gl.glLoadIdentity();
-          
-          gl.glTranslatef(0.0f, 0.0f, -6.0f); //przesuniêcie o 6 jednostek
-            gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f); //rotacja wokó³ osi X
-            gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó³ osi Y
-            //kolo(0.0f, 0.0f, 1.0f, gl);
-            kolo2(0.0f, 0.0f, 1.0f, gl);
-            tuba(1.0f, gl);
-            /*
+          //kolo(0.0f, 0.0f, 0.5f, gl);
+          gl.glTranslatef(0.0f, 0.0f, -6.0f); //przesuni?cie o 6 jednostek
+            gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f); //rotacja wokó? osi X
+            gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó? osi Y
+            
             gl.glBegin(GL.GL_QUADS);
-            //podstawa
-gl.glColor3f(1.0f,0.0f,1.0f);
-gl.glVertex3f(-1.0f,-1.0f,1.0f);
-gl.glVertex3f(-1.0f,-1.0f,-1.0f);
-gl.glVertex3f(1.0f,-1.0f,-1.0f);
-gl.glVertex3f(1.0f,-1.0f,1.0f);
-
-gl.glEnd();
-//sciana tylna
-gl.glBegin(GL.GL_TRIANGLES);
-gl.glColor3f(0.0f,1.0f,0.0f);
-gl.glVertex3f(-1.0f,-1.0f,-1.0f);
-gl.glVertex3f(0.0f,1.0f,0.0f);
-gl.glVertex3f(1.0f,-1.0f,-1.0f);
-
-//œciana lewa
-gl.glColor3f(0.0f,0.0f,1.0f);
-gl.glVertex3f(-1.0f,-1.0f,-1.0f);
-gl.glVertex3f(-1.0f,-1.0f,1.0f);
-gl.glVertex3f(0.0f,1.0f,0.0f);
-
-//œciana prawa
-gl.glColor3f(1.0f,1.0f,0.0f);
-gl.glVertex3f(1.0f,-1.0f,1.0f);
-gl.glVertex3f(1.0f,-1.0f,-1.0f);
-gl.glVertex3f(0.0f,1.0f,0.0f);
-
-
-//œciana przednia
+//?ciana przednia czerwona
 gl.glColor3f(1.0f,0.0f,0.0f);
+gl.glNormal3f(0.0f,0.0f,1.0f);
 gl.glVertex3f(-1.0f,-1.0f,1.0f);
 gl.glVertex3f(1.0f,-1.0f,1.0f);
-gl.glVertex3f(0.0f,1.0f,0.0f);
+gl.glVertex3f(1.0f,1.0f,1.0f);
+gl.glVertex3f(-1.0f,1.0f,1.0f);
+//sciana tylna zielona
+gl.glColor3f(0.0f,1.0f,0.0f);
+gl.glNormal3f(0.0f,0.0f,-1.0f);
+gl.glVertex3f(-1.0f,1.0f,-1.0f);
+gl.glVertex3f(1.0f,1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+//?ciana lewa niebieska
+gl.glColor3f(0.0f,0.0f,1.0f);
+gl.glNormal3f(-1.0f,0.0f,0.0f);
+gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+gl.glVertex3f(-1.0f,-1.0f,1.0f);
+gl.glVertex3f(-1.0f,1.0f,1.0f);
+gl.glVertex3f(-1.0f,1.0f,-1.0f);
+//?ciana prawa
+gl.glColor3f(1.0f,1.0f,0.0f);
+gl.glNormal3f(1.0f,0.0f,0.0f);
+gl.glVertex3f(1.0f,1.0f,-1.0f);
+gl.glVertex3f(1.0f,1.0f,1.0f);
+gl.glVertex3f(1.0f,-1.0f,1.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+//?ciana dolna
+gl.glColor3f(1.0f,0.0f,1.0f);
+gl.glNormal3f(0.0f,-1.0f,0.0f);
+gl.glVertex3f(-1.0f,-1.0f,1.0f);
+gl.glVertex3f(-1.0f,-1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+gl.glVertex3f(1.0f,-1.0f,1.0f);
+//?ciana górna
+gl.glColor3f(1.0f,0.0f,1.0f);
+gl.glNormal3f(0.0f,1.0f,0.0f);
+gl.glVertex3f(-1.0f,1.0f,1.0f);
+gl.glVertex3f(1.0f,1.0f,1.0f);
+gl.glVertex3f(1.0f,1.0f,-1.0f);
+gl.glVertex3f(-1.0f,1.0f,-1.0f);
+
+
 
 
           gl.glEnd();
-                    */
           gl.glFlush();
        
 }
@@ -166,51 +201,15 @@ gl.glVertex3f(0.0f,1.0f,0.0f);
     
     public void kolo(float xsrodek, float ysrodek, float rozmiar, GL gl) {
          float kat;
-         
          gl.glBegin(GL.GL_TRIANGLE_FAN);
-         gl.glColor3f(1.0f,0.0f,0.0f);
-         gl.glVertex3f(xsrodek, ysrodek, 2.0f);
-         for (kat = (float) (2.0f * Math.PI); kat > 0;
-                 kat -= (Math.PI / 32.0f)) {
-             float x = rozmiar * (float) Math.sin(kat) + xsrodek;
-             float y = rozmiar * (float) Math.cos(kat) + ysrodek;
-
-             gl.glVertex3f(x, y, 2.0f);
-         }
-         gl.glEnd();
-     }
-    
-    public void kolo2(float xsrodek, float ysrodek, float rozmiar, GL gl) {
-         float kat;
-         
-         gl.glBegin(GL.GL_TRIANGLE_FAN);
-         gl.glColor3f(0.0f,0.0f,1.0f);
-         gl.glVertex3f(xsrodek, ysrodek, 0.0f);
-         for (kat = 0.0f  ; kat < (2.0f * Math.PI);
+         gl.glVertex3f(xsrodek, ysrodek, -6.0f);
+         for (kat = 0.0f; kat < (2.0f * Math.PI);
                  kat += (Math.PI / 32.0f)) {
              float x = rozmiar * (float) Math.sin(kat) + xsrodek;
              float y = rozmiar * (float) Math.cos(kat) + ysrodek;
-
-             gl.glVertex3f(x, y, 0.0f);
+ 
+             gl.glVertex3f(x, y, -6.0f);
          }
-         gl.glEnd();
-     }
-    
-     public void tuba(float rozmiar, GL gl) {
-         float kat;
-         
-         gl.glBegin(GL.GL_QUAD_STRIP);
-         gl.glColor3f(0.0f,1.0f,0.0f);
-         
-         for (kat = 0.0f  ; kat < (2.0f * Math.PI);
-                 kat += (Math.PI / 32.0f)) {
-             float x = rozmiar * (float) Math.sin(kat);
-             float y = rozmiar * (float) Math.cos(kat);
-
-             gl.glVertex3f(x, y, 0.0f);
-             gl.glVertex3f(0.0f, 0.0f, 2.0f);
-         }
-         gl.glEnd();
      }
     
     
@@ -220,4 +219,3 @@ gl.glVertex3f(0.0f,1.0f,0.0f);
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
     }
 }
-
