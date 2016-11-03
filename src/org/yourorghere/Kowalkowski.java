@@ -23,6 +23,10 @@ import javax.media.opengl.glu.GLU;
 public class Kowalkowski implements GLEventListener {
 //statyczne pola okre?laj?ce rotacj? wokó? osi X i Y
  private static float xrot = 0.0f, yrot = 0.0f;
+ static float ambientLight[] = { 0.3f, 0.3f, 0.3f, 1.0f };//swiat³o otaczaj¹ce
+ static float diffuseLight[] = { 0.7f, 0.7f, 0.7f, 1.0f };//œwiat³o rozproszone
+ static float specular[] = { 1.0f, 1.0f, 1.0f, 1.0f}; //œwiat³o odbite
+ static float lightPos[] = { 0.0f, 150.0f, 150.0f, 1.0f };//pozycja œwiat³a
 
     public static void main(String[] args) {
         Frame frame = new Frame("Simple JOGL Application");
@@ -62,7 +66,25 @@ public class Kowalkowski implements GLEventListener {
  yrot += 1.0f;
  if(e.getKeyCode() == KeyEvent.VK_LEFT)
  yrot -=1.0f;
+ 
+ if(e.getKeyChar() == 'q')
+     ambientLight = new float[] {ambientLight[0]-0.1f, ambientLight[0]-0.1f,ambientLight[0]-0.1f,1.0f};
+ if(e.getKeyChar() == 'w')
+     ambientLight = new float[] {ambientLight[0]+0.1f, ambientLight[0]+0.1f,ambientLight[0]+0.1f,1.0f};
+ if(e.getKeyChar() == 'e')
+     diffuseLight = new float[] {diffuseLight[0]-0.1f, diffuseLight[0]-0.1f,diffuseLight[0]-0.1f,1.0f};
+ if(e.getKeyChar() == 'r')
+     diffuseLight = new float[] {diffuseLight[0]+0.1f, diffuseLight[0]+0.1f,diffuseLight[0]+0.1f,1.0f};
+ if(e.getKeyChar() == 't')
+     specular = new float[] {specular[0]-0.1f, specular[0]-0.1f,specular[0]-0.1f,1.0f};
+ if(e.getKeyChar() == 'y')
+     specular = new float[] {specular[0]+0.1f, specular[0]+0.1f,specular[0]+0.1f,1.0f};
+ if(e.getKeyChar() == 'u')
+     lightPos[3]=0;
+ if(e.getKeyChar() == 'i')
+     lightPos[3]=1;
  }
+ 
  public void keyReleased(KeyEvent e){}
  public void keyTyped(KeyEvent e){}
  });
@@ -91,10 +113,7 @@ public class Kowalkowski implements GLEventListener {
         gl.glEnable(GL.GL_CULL_FACE);
         
         //wartoœci sk³adowe oœwietlenia i koordynaty Ÿród³a œwiat³a
-        float ambientLight[] = { 0.3f, 0.3f, 0.3f, 1.0f };//swiat³o otaczaj¹ce
-        float diffuseLight[] = { 0.7f, 0.7f, 0.7f, 1.0f };//œwiat³o rozproszone
-        float specular[] = { 1.0f, 1.0f, 1.0f, 1.0f}; //œwiat³o odbite
-        float lightPos[] = { 0.0f, 150.0f, 150.0f, 1.0f };//pozycja œwiat³a
+        
         //(czwarty parametr okreœla odleg³oœæ Ÿród³a:
         //0.0f-nieskoñczona; 1.0f-okreœlona przez pozosta³e parametry)
         gl.glEnable(GL.GL_LIGHTING); //uaktywnienie oœwietlenia
@@ -145,6 +164,10 @@ public class Kowalkowski implements GLEventListener {
           gl.glTranslatef(0.0f, 0.0f, -6.0f); //przesuni?cie o 6 jednostek
             gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f); //rotacja wokó? osi X
             gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó? osi Y
+            gl.glLightfv(GL.GL_LIGHT0,GL.GL_AMBIENT,ambientLight,0); //swiat³o otaczaj¹ce
+        gl.glLightfv(GL.GL_LIGHT0,GL.GL_DIFFUSE,diffuseLight,0); //œwiat³o rozproszone
+        gl.glLightfv(GL.GL_LIGHT0,GL.GL_SPECULAR,specular,0); //œwiat³o odbite
+        gl.glLightfv(GL.GL_LIGHT0,GL.GL_POSITION,lightPos,0); //pozycja œwiat³a
             
             gl.glBegin(GL.GL_QUADS);
 //?ciana przednia czerwona
