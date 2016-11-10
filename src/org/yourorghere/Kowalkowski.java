@@ -259,7 +259,7 @@ gl.glVertex3fv(scianka1,6); //wspó³rzêdne 3-go punktu zaczynaj¹ siê od indeksu 6
 
           gl.glEnd();
                */
-        
+        /*
         walec(gl);
         gl.glTranslatef(0.0f, 0.0f, -1.0f);
         stozek(gl);
@@ -267,11 +267,42 @@ gl.glVertex3fv(scianka1,6); //wspó³rzêdne 3-go punktu zaczynaj¹ siê od indeksu 6
         gl.glScalef(0.7f, 0.7f, 1.0f);
         stozek(gl);
         gl.glTranslatef(0.0f, 0.0f, -1.7f);
-        gl.glScalef(0.5f, 0.5f, 1.0f);
+        gl.glScalef(0.5f, 0.5f, 0.5f);
         stozek(gl);
+                */
+        
+            for(int j=0;j<5;j++){
+                choinka(gl);
+            gl.glTranslatef(4.0f, 0.0f, 0.0f);
+            
+            }
+            gl.glTranslatef(0.0f,4.0f,0.0f);
+            for(int j=0;j<5;j++){
+                choinka(gl);
+            gl.glTranslatef(-4.0f, 0.0f, 0.0f);
+            
+            }
+        
+        
+        //choinka(gl);
           gl.glFlush();
       
 }
+    
+    void choinka(GL gl){
+        gl.glPushMatrix();
+        walec(gl);
+        gl.glTranslatef(0.0f, 0.0f, -1.0f);
+        stozek(gl);
+        gl.glTranslatef(0.0f, 0.0f, -1.5f);
+        gl.glScalef(0.7f, 0.7f, 1.0f);
+        stozek(gl);
+        gl.glTranslatef(0.0f, 0.0f, -1.7f);
+        gl.glScalef(0.5f, 0.5f, 0.5f);
+        stozek(gl);
+        gl.glPopMatrix();
+    }
+    
     void walec(GL gl)
  {
 //wywo³ujemy automatyczne normalizowanie normalnych
@@ -279,7 +310,7 @@ gl.glVertex3fv(scianka1,6); //wspó³rzêdne 3-go punktu zaczynaj¹ siê od indeksu 6
 gl.glEnable(GL.GL_NORMALIZE);
 float x,y,kat;
 gl.glBegin(GL.GL_QUAD_STRIP);
-gl.glColor3f(1.0f,1.0f,0.0f);
+gl.glColor3f(0.7f,0.4f,0.0f);
 for(kat = 0.0f; kat < (2.0f*Math.PI); kat += (Math.PI/32.0f))
 {
 x = 0.5f*(float)Math.sin(kat);
