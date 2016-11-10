@@ -195,7 +195,7 @@ public class Kowalkowski implements GLEventListener {
         gl.glLightfv(GL.GL_LIGHT0,GL.GL_SPECULAR,specular,0); //œwiat³o odbite
         gl.glLightfv(GL.GL_LIGHT0,GL.GL_POSITION,lightPos,0); //pozycja œwiat³a
             
-            gl.glBegin(GL.GL_QUADS);
+      /*      gl.glBegin(GL.GL_QUADS);
             //podstawa
 gl.glColor3f(1.0f,0.0f,1.0f);
 gl.glNormal3f(0.0f,-1.0f,0.0f);
@@ -258,10 +258,89 @@ gl.glVertex3fv(scianka1,6); //wspó³rzêdne 3-go punktu zaczynaj¹ siê od indeksu 6
 
 
           gl.glEnd();
+               */
+        
+        walec(gl);
+        gl.glTranslatef(0.0f, 0.0f, -1.0f);
+        stozek(gl);
+        gl.glTranslatef(0.0f, 0.0f, -1.5f);
+        gl.glScalef(0.7f, 0.7f, 1.0f);
+        stozek(gl);
+        gl.glTranslatef(0.0f, 0.0f, -1.7f);
+        gl.glScalef(0.5f, 0.5f, 1.0f);
+        stozek(gl);
           gl.glFlush();
-       
+      
 }
-    
+    void walec(GL gl)
+ {
+//wywo³ujemy automatyczne normalizowanie normalnych
+//bo operacja skalowania je zniekszta³ci
+gl.glEnable(GL.GL_NORMALIZE);
+float x,y,kat;
+gl.glBegin(GL.GL_QUAD_STRIP);
+gl.glColor3f(1.0f,1.0f,0.0f);
+for(kat = 0.0f; kat < (2.0f*Math.PI); kat += (Math.PI/32.0f))
+{
+x = 0.5f*(float)Math.sin(kat);
+y = 0.5f*(float)Math.cos(kat);
+gl.glNormal3f((float)Math.sin(kat),(float)Math.cos(kat),0.0f);
+gl.glVertex3f(x, y, -1.0f);
+gl.glVertex3f(x, y, 0.0f);
+}
+gl.glEnd();
+gl.glNormal3f(0.0f,0.0f,-1.0f);
+x=y=kat=0.0f;
+gl.glBegin(GL.GL_TRIANGLE_FAN);
+gl.glVertex3f(0.0f, 0.0f, -1.0f); //srodek kola
+for(kat = 0.0f; kat < (2.0f*Math.PI); kat += (Math.PI/32.0f))
+{
+x = 0.5f*(float)Math.sin(kat);
+y = 0.5f*(float)Math.cos(kat);
+gl.glVertex3f(x, y, -1.0f);
+}
+gl.glEnd();
+gl.glNormal3f(0.0f,0.0f,1.0f);
+x=y=kat=0.0f;
+gl.glBegin(GL.GL_TRIANGLE_FAN);
+gl.glVertex3f(0.0f, 0.0f, 0.0f); //srodek kola
+for(kat = 2.0f*(float)Math.PI; kat > 0.0f ; kat -= (Math.PI/32.0f))
+{
+x = 0.5f*(float)Math.sin(kat);
+y = 0.5f*(float)Math.cos(kat);
+gl.glVertex3f(x, y, 0.0f);
+}
+gl.glEnd();
+}
+
+void stozek(GL gl)
+{
+//wywo³ujemy automatyczne normalizowanie normalnych
+gl.glEnable(GL.GL_NORMALIZE);
+float x,y,kat;
+gl.glBegin(GL.GL_TRIANGLE_FAN);
+gl.glColor3f(0.0f,1.0f,0.0f);
+gl.glVertex3f(0.0f, 0.0f, -2.0f); //wierzcholek stozka
+for(kat = 0.0f; kat < (2.0f*Math.PI); kat += (Math.PI/32.0f))
+{
+x = (float)Math.sin(kat);
+y = (float)Math.cos(kat);
+gl.glNormal3f((float)Math.sin(kat),(float)Math.cos(kat),-2.0f);
+gl.glVertex3f(x, y, 0.0f);
+}
+gl.glEnd();
+gl.glBegin(GL.GL_TRIANGLE_FAN);
+gl.glNormal3f(0.0f,0.0f,1.0f);
+gl.glVertex3f(0.0f, 0.0f, 0.0f); //srodek kola
+for(kat = 2.0f*(float)Math.PI; kat > 0.0f; kat -= (Math.PI/32.0f))
+{
+x = (float)Math.sin(kat);
+y = (float)Math.cos(kat);
+gl.glVertex3f(x, y, 0.0f);
+}
+gl.glEnd();
+}
+
     
     public void kolo(float xsrodek, float ysrodek, float rozmiar, GL gl) {
          float kat;
